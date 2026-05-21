@@ -74,11 +74,17 @@ if (-not (Test-Path "$BACKEND\venv")) {
 
 Write-Warn "Instalando/atualizando dependencias Python..."
 Write-Host "    (pode levar alguns minutos na primeira execucao)" -ForegroundColor DarkGray
-& "$BACKEND\venv\Scripts\pip.exe" install -r "$BACKEND\requirements.txt" -q --disable-pip-version-check
+& "$BACKEND\venv\Scripts\pip.exe" install -r "$BACKEND\requirements.txt" --disable-pip-version-check
 if ($LASTEXITCODE -ne 0) {
-    Write-Fail "Erro ao instalar dependencias Python. Verifique requirements.txt."
-    Read-Host "`nPressione Enter para sair"
-    exit 1
+    Write-Warn "Primeira tentativa falhou. Recriando ambiente virtual limpo..."
+    Remove-Item -Recurse -Force "$BACKEND\venv"
+    python -m venv "$BACKEND\venv"
+    & "$BACKEND\venv\Scripts\pip.exe" install -r "$BACKEND\requirements.txt" --disable-pip-version-check
+    if ($LASTEXITCODE -ne 0) {
+        Write-Fail "Erro ao instalar dependencias Python. Verifique requirements.txt."
+        Read-Host "`nPressione Enter para sair"
+        exit 1
+    }
 }
 Write-Ok "Dependencias backend OK"
 

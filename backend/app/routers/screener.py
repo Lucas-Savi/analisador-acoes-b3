@@ -45,7 +45,7 @@ def get_screener(
     )
     return [
         ScreenerEntryResponse(
-            **{k: v for k, v in e.__dict__.items() if not k.startswith("_")},
+            **{k: v for k, v in e.__dict__.items() if not k.startswith("_") and k != "updated_at"},
             updated_at=e.updated_at.isoformat() if e.updated_at else None,
         )
         for e in entries

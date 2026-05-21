@@ -9,7 +9,10 @@ router = APIRouter(prefix="/quotes", tags=["Cotações"])
 @router.get("/{ticker}", response_model=QuoteResponse)
 async def get_quote(ticker: str):
     ticker = ticker.upper()
-    data = await brapi.get_quote(ticker)
+    try:
+        data = await brapi.get_quote(ticker)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Ticker {ticker} não disponível na fonte de dados")
     if not data:
         raise HTTPException(status_code=404, detail=f"Ticker {ticker} não encontrado")
     return data

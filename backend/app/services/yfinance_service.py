@@ -9,11 +9,17 @@ def _fetch_fundamentals(ticker: str) -> dict:
     info = yf_ticker.info
 
     raw_dte = info.get("debtToEquity")
+    price = (
+        info.get("currentPrice")
+        or info.get("regularMarketPrice")
+        or info.get("previousClose")
+    )
 
     return {
         "ticker": ticker,
         "company_name": info.get("longName") or info.get("shortName"),
         "sector": info.get("sector"),
+        "price": price,
         "lpa": info.get("trailingEps"),
         "vpa": _calc_vpa(info),
         "pl": info.get("trailingPE"),

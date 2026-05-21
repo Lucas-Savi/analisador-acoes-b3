@@ -65,7 +65,8 @@ async def refresh_all(db: Session) -> None:
                 q = quote if not isinstance(quote, Exception) else {}
                 f = fundamentals if not isinstance(fundamentals, Exception) else {}
 
-                price = (q or {}).get("price")
+                # brapi tem prioridade; yfinance como fallback de preço
+                price = (q or {}).get("price") or (f or {}).get("price")
                 lpa = (f or {}).get("lpa")
                 vpa = (f or {}).get("vpa")
                 pl = (f or {}).get("pl")

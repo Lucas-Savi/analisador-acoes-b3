@@ -1,6 +1,7 @@
 import { TrendingUp } from "lucide-react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import TickerDropdown from "./TickerDropdown";
 
 export default function Layout() {
   const [search, setSearch] = useState("");
@@ -18,13 +19,13 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-gray-800 bg-gray-900 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2 font-bold text-lg text-white">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <Link to="/" className="flex items-center gap-2 font-bold text-lg text-white shrink-0">
             <TrendingUp className="w-6 h-6 text-green-400" />
             Analisador B3
           </Link>
 
-          <form onSubmit={handleSearch} className="flex-1 max-w-sm">
+          <form onSubmit={handleSearch} className="flex-1 max-w-xs">
             <input
               type="text"
               value={search}
@@ -34,7 +35,10 @@ export default function Layout() {
             />
           </form>
 
-          <nav className="flex gap-4 text-sm text-gray-400">
+          {/* Dropdown de todas as ações */}
+          <TickerDropdown />
+
+          <nav className="flex gap-4 text-sm text-gray-400 shrink-0">
             <Link to="/" className="hover:text-white transition-colors">Início</Link>
             <Link to="/screener" className="hover:text-white transition-colors">Screener</Link>
           </nav>

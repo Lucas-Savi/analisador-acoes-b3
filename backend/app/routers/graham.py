@@ -12,8 +12,11 @@ async def analyze_graham(ticker: str):
 
     quote_data, fundamentals_data = await _fetch_both(ticker)
 
-    preco = quote_data.get("price") if quote_data else None
-    change_percent = quote_data.get("change_percent") if quote_data else None
+    # brapi tem prioridade; yfinance como fallback para price e change_percent
+    preco = (quote_data.get("price") if quote_data else None) or fundamentals_data.get("price")
+    change_percent = (quote_data.get("change_percent") if quote_data else None)
+    if change_percent is None:
+        change_percent = fundamentals_data.get("change_percent")
     company_name = fundamentals_data.get("company_name")
     lpa = fundamentals_data.get("lpa")
     vpa = fundamentals_data.get("vpa")

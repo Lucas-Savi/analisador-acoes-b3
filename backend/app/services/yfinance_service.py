@@ -14,12 +14,14 @@ def _fetch_fundamentals(ticker: str) -> dict:
         or info.get("regularMarketPrice")
         or info.get("previousClose")
     )
+    change_percent = info.get("regularMarketChangePercent")
 
     return {
         "ticker": ticker,
         "company_name": info.get("longName") or info.get("shortName"),
         "sector": info.get("sector"),
         "price": price,
+        "change_percent": change_percent,
         "lpa": info.get("trailingEps"),
         "vpa": _calc_vpa(info),
         "pl": info.get("trailingPE"),

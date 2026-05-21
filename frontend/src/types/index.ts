@@ -18,7 +18,9 @@ export interface FundamentalsResponse {
 
 export interface GrahamResponse {
   ticker: string;
+  company_name: string | null;
   price: number | null;
+  change_percent: number | null;
   lpa: number | null;
   vpa: number | null;
   graham_number: number | null;

@@ -8,6 +8,8 @@ def _fetch_fundamentals(ticker: str) -> dict:
     yf_ticker = yf.Ticker(f"{ticker}.SA")
     info = yf_ticker.info
 
+    raw_dte = info.get("debtToEquity")
+
     return {
         "ticker": ticker,
         "company_name": info.get("longName") or info.get("shortName"),
@@ -17,7 +19,8 @@ def _fetch_fundamentals(ticker: str) -> dict:
         "pl": info.get("trailingPE"),
         "pvpa": info.get("priceToBook"),
         "liquidez_corrente": info.get("currentRatio"),
-        "divida_patrimonio": info.get("debtToEquity"),
+        # yfinance retorna debtToEquity como percentual (ex: 150 = ratio 1.5)
+        "divida_patrimonio": round(raw_dte / 100, 4) if raw_dte is not None else None,
     }
 
 

@@ -13,6 +13,8 @@ async def analyze_graham(ticker: str):
     quote_data, fundamentals_data = await _fetch_both(ticker)
 
     preco = quote_data.get("price") if quote_data else None
+    change_percent = quote_data.get("change_percent") if quote_data else None
+    company_name = fundamentals_data.get("company_name")
     lpa = fundamentals_data.get("lpa")
     vpa = fundamentals_data.get("vpa")
     pl = fundamentals_data.get("pl")
@@ -24,7 +26,9 @@ async def analyze_graham(ticker: str):
 
     return GrahamResponse(
         ticker=ticker,
+        company_name=company_name,
         price=preco,
+        change_percent=change_percent,
         lpa=lpa,
         vpa=vpa,
         pl=pl,

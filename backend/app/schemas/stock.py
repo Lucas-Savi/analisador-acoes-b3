@@ -21,7 +21,9 @@ class FundamentalsResponse(BaseModel):
 
 class GrahamResponse(BaseModel):
     ticker: str
+    company_name: str | None = None
     price: float | None
+    change_percent: float | None = None
     lpa: float | None
     vpa: float | None
     graham_number: float | None = Field(None, description="√(22.5 × LPA × VPA)")

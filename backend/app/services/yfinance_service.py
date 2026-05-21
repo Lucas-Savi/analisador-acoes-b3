@@ -10,6 +10,8 @@ def _fetch_fundamentals(ticker: str) -> dict:
 
     return {
         "ticker": ticker,
+        "company_name": info.get("longName") or info.get("shortName"),
+        "sector": info.get("sector"),
         "lpa": info.get("trailingEps"),
         "vpa": _calc_vpa(info),
         "pl": info.get("trailingPE"),

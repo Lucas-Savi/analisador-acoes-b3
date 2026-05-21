@@ -41,3 +41,33 @@ class ScreenerFilters(BaseModel):
     liquidez_corrente_min: float = 2.0
     divida_patrimonio_max: float = 1.0
     apenas_aprovados: bool = False
+
+
+class ScreenerEntryResponse(BaseModel):
+    ticker: str
+    company_name: str | None
+    sector: str | None
+    price: float | None
+    lpa: float | None
+    vpa: float | None
+    pl: float | None
+    pvpa: float | None
+    pl_x_pvpa: float | None
+    graham_number: float | None
+    margem_seguranca: float | None
+    liquidez_corrente: float | None
+    divida_patrimonio: float | None
+    aprovado_graham: bool
+    updated_at: str | None
+
+    model_config = {"from_attributes": True}
+
+
+class ScreenerStatusResponse(BaseModel):
+    running: bool
+    started_at: str | None
+    finished_at: str | None
+    processed: int
+    total: int
+    errors: int
+    cached_count: int

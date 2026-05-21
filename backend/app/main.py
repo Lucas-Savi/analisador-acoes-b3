@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import init_db
-from app.routers import fundamentals, graham, quotes
+from app.routers import fundamentals, graham, quotes, screener
 
 app = FastAPI(
     title="Analisador de Ações B3",
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(quotes.router, prefix="/api")
 app.include_router(fundamentals.router, prefix="/api")
 app.include_router(graham.router, prefix="/api")
+app.include_router(screener.router, prefix="/api")
 
 
 @app.on_event("startup")
